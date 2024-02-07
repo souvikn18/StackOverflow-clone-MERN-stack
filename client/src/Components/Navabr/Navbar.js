@@ -10,7 +10,7 @@ const Navbar = () => {
     const user = null
 
     return (
-        <nav className='flex grow justify-between items-center gap-[2%] min-h-[55px] w-[100%] my-[0%] mx-auto fixed bg-[#f8f9f9] px-[10%] border-t-4 border-t-orange-400 shadow-md z-10'>
+        <nav className='flex grow justify-between items-center gap-[2%] min-h-[55px] w-[100%] my-0 mx-auto fixed bg-[#f8f9f9] px-[10%] border-t-4 border-t-orange-400 shadow-md z-10'>
             <div>
                 <Link to='/'>
                     <img className='w-[180px] hover:bg-[#e2e2e2] cursor-pointer transition ease-in-out duration-200 px-[10px] py-[5px]' src={logo} alt='' />
