@@ -1,0 +1,27 @@
+.display-question-details{
+    flex-grow: 1;
+    padding: 0px 20px;
+}
+
+.display-tags-time .display-tags{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.display-tags-time{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.display-tags-time .display-tags p{
+    margin: 2px;
+    padding: 4px;
+    font-size: 13px;
+    background-color: #edeff0;
+    color: #39739d;
+}
+.display-tags-time .display-time {
+    font-size: 13px;
+}
