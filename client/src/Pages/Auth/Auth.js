@@ -38,7 +38,7 @@ const Auth = () => {
                     <Link to='/'>
                         <img className='w-[50px]' src={stackOverflowIcon}/>
                     </Link>
-                    <form onSubmit={handleSubmit} className='p-[20px] bg-white rounded-[10px] flex flex-col justify-evenly gap-2 shasow-md w-[100%]'>
+                    <form onSubmit={handleSubmit} className='p-[20px] bg-white rounded-[10px] flex flex-col justify-evenly gap-2 shadow-lg w-[100%]'>
                         {login && (
                             <label htmlFor='name'>
                                 <h4 className='mb-[5px] mt-[10px] font-bold'>Display Name</h4>
