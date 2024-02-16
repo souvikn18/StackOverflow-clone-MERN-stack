@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import upVote from '../../assets/sortup.svg'
 import downVote from '../../assets/sortdown.svg'
 import Avatar from '../../Components/Avatar/Avatar'
+import Button from '../../Components/Button'
 
 const QuestionDetails = () => {
 
@@ -21,16 +22,22 @@ const QuestionDetails = () => {
         userId: 1,
         askedOn: "jan 1",
         answer: [{
-            answerBody: "Answer",
+            answerBody: "Functions are self contained modules of code that accomplish a specific task",
             userAnswered: 'suvo',
             answeredOn: "jan 2",
+            userId: 2,
+        },
+        {
+            answerBody: "Functions usually take in data, process it, and return a result",
+            userAnswered: 'arsif',
+            answeredOn: "jan 3",
             userId: 2,
         }]
     },{ 
         _id: '2',
         upVotes: 3,
         downVotes: 2,
-        noOfAnswers: 0,
+        noOfAnswers: 1,
         questionTitle: "What is a class?",
         questionBody: "It meant to be",
         questionTags: ["javascript", "R", "python"],
@@ -47,7 +54,7 @@ const QuestionDetails = () => {
         _id: '3',
         upVotes: 3,
         downVotes: 2,
-        noOfAnswers: 0,
+        noOfAnswers: 1,
         questionTitle: "What is a call back function?",
         questionBody: "It meant to be",
         questionTags: ["javascript", "R", "python"],
@@ -112,6 +119,53 @@ const QuestionDetails = () => {
                     }
                 </div>
             }
+
+            {
+                questionsList.filter(question => ( question._id === id )).map(question => (
+                    <section className='border-b border-[#0000003e]'>
+                        <h3 className='text-xl font-bold my-4'>{question.noOfAnswers} answer</h3>
+                        <div>
+                            <div>
+                                {question.answer.map(answer => (
+                                    <>
+                                        <p className='text-sm my-2'>{answer.answerBody}</p>
+                                        <div className='flex justify-between'>
+                                            <div className='flex gap-4 my-4'>
+                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Share</button>
+                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Delete</button>
+                                            </div>
+                                            <div className='text-sm'>
+                                                <p>answered {answer.answeredOn} by</p>
+                                                <Link to={`/user/${question.userId}`} className='flex gap-1'>
+                                                        <Avatar value={answer.userAnswered.charAt(0).toUpperCase()} backgroundColor='green' borderRadius='4px' color='white' width='20px' cursor='pointer'/>
+                                                        <p className='text-[#0086d8]'>{answer.userAnswered}</p>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                ))
+            }
+
+            <section>
+                <h3 className='text-xl font-bold my-4'>Your answer</h3>
+                <form>
+                    <textarea className='border mt-2 mb-4 p-2 w-[100%]' cols='30' rows='7'></textarea>
+                    <Button>Post your answer</Button>
+                </form>
+                <p className='my-8'>Browse other question tagged {questionsList.filter(question => (question._id === id)).map( question => (
+                    <>
+                        {question.questionTags.map(tag => (
+                        <span className='mr-2 p-1 bg-[#e1ecf4] text-[#39739d] text-[13px] rounded'>{tag}</span>
+                        ))}
+                    </>
+                ))} or &nbsp;
+                    <Link className='text-[#009dff]' to='/askquestions'>ask your own question</Link>
+                </p>
+            </section>
         </div>
     )
 }
