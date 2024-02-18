@@ -1,8 +1,11 @@
 import React,{useState} from 'react'
 import {Link} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import stackOverflowIcon from '../../assets/icon.png'
 import AboutAuth from './AboutAuth'
+import {signUp, logIn} from '../../actions/auth.actions'
 
 const Auth = () => {
 
@@ -10,6 +13,9 @@ const Auth = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSwitch = () => {
         setLogin(!login)
@@ -27,7 +33,9 @@ const Auth = () => {
             if (!name) {
                 alert('Enter name!')
             }
+            dispatch(signUp({name, email, password}), navigate)
         }
+        dispatch(logIn({email, password}), navigate)
     }
 
     return (
