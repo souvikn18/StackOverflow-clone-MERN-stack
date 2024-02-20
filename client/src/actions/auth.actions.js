@@ -13,9 +13,9 @@ export const signUp = (authData, navigate) => async(dispatch) => {
     }
 }
 
-export const logIn = (authData, navigate) => {
+export const logIn = (authData, navigate) => async(dispatch) => {
     try {
-        const {data} = api.logIn(authData)
+        const {data} = await api.logIn(authData)
         dispatch({
             type: 'AUTH',
             data

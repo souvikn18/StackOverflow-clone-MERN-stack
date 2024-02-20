@@ -5,10 +5,10 @@ import User from '../models/user.schema.js'
 import asyncHandler from '../services/asyncHandler.js'
 import CustomError from '../services/customError.js'
 
-export const CookieOptions = {
-    expires: new Date(Date.now() + 1*60*60*1000),
-    httpOnly: true
-}
+// export const CookieOptions = {
+//     expires: new Date(Date.now() + 1*60*60*1000),
+//     httpOnly: true
+// }
 
 export const signUp = asyncHandler( async(req, res) => {
     const {name, email, password} = req.body;
@@ -26,17 +26,18 @@ export const signUp = asyncHandler( async(req, res) => {
         throw new CustomError("User already exists", 400)
     }
 
+    const hashedPassword = await bcrypt.hash(password, 12)
     const newUser = await User.create({
-        name,
+        name, 
         email,
-        password
-    })
+        password: hashedPassword
+    }) 
+    const token = jwt.sign({
+        email: newUser.email,
+        id:newUser._id
+    }, "test" , { expiresIn: '1h'});
 
-    const token = await newUser.getJWTtoken();
-
-    newUser.password = undefined
-
-    res.cookie("token", token, CookieOptions)
+    res.cookie("token", token)
     res.status(200).json({
         success: true,
         token, 
@@ -56,12 +57,14 @@ export const logIn = asyncHandler(async(req, res) => {
         throw new CustomError("Invalid credentials", 400)
     }
 
-    const isPasswordMatched = await existingUser.comparePassword(password)
+    const isPasswordMatched = await bcrypt.compare(password, existingUser.password)
 
     if (isPasswordMatched) {
-        const token = existingUser.getJWTtoken();
-        existingUser.password = undefined;
-        res.cookie("token", token, CookieOptions);
+        const token = jwt.sign({
+            email: existingUser.email,
+            id: existingUser._id
+        }, "test", {expiresIn: "1h"});
+        res.cookie("token", token);
         res.status(200).json({
             success: true,
             token,
