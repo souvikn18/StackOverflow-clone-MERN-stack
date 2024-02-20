@@ -33,9 +33,9 @@ const Auth = () => {
             if (!name) {
                 alert('Enter name!')
             }
-            dispatch(signUp({name, email, password}), navigate)
+            dispatch(signUp({name, email, password}, navigate))
         }
-        dispatch(logIn({email, password}), navigate)
+        dispatch(logIn({email, password}, navigate))
     }
 
     return (
