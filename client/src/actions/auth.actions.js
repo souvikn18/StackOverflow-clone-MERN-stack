@@ -1,4 +1,5 @@
 import * as api from '../api'
+import { setCurrentUser } from './currentUser.actions'
 
 export const signUp = (authData, navigate) => async(dispatch) => {
     try {
@@ -7,6 +8,7 @@ export const signUp = (authData, navigate) => async(dispatch) => {
             type: 'AUTH',
             data
         })
+        dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
         navigate('/')
     } catch (error) {
         console.log(error);
@@ -20,6 +22,7 @@ export const logIn = (authData, navigate) => async(dispatch) => {
             type: 'AUTH',
             data
         })
+        dispatch(setCurrentUser(JSON.parse(localStorage.getItem('Profile'))))
         navigate('/')
     } catch (error) {
         console.log(error);

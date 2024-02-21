@@ -107,7 +107,7 @@ const QuestionDetails = () => {
                                             <div className='text-sm'>
                                                 <p> Asked on {question.askedOn} by</p>
                                                 <Link to={`/user/${question.userId}`} className='flex gap-1'>
-                                                    <Avatar value={question.userPosted.charAt(0).toUpperCase()} backgroundColor='orange' borderRadius='4px' color='white' width='20px' cursor='pointer'/>
+                                                    <Avatar backgroundColor='orange' borderRadius='4px' color='white' width='20px' cursor='pointer'>{question.userPosted.charAt(0).toUpperCase()}</Avatar>
                                                     <p className='text-[#0086d8]'>{question.userPosted}</p>
                                                 </Link>
                                             </div>
@@ -137,7 +137,7 @@ const QuestionDetails = () => {
                                             <div className='text-sm'>
                                                 <p>answered {answer.answeredOn} by</p>
                                                 <Link to={`/user/${question.userId}`} className='flex gap-1'>
-                                                        <Avatar value={answer.userAnswered.charAt(0).toUpperCase()} backgroundColor='green' borderRadius='4px' color='white' width='20px' cursor='pointer'/>
+                                                        <Avatar backgroundColor='green' borderRadius='4px' color='white' width='20px' cursor='pointer'>{answer.userAnswered.charAt(0).toUpperCase()}</Avatar>
                                                         <p className='text-[#0086d8]'>{answer.userAnswered}</p>
                                                 </Link>
                                             </div>
