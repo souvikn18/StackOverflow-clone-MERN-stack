@@ -27,13 +27,13 @@ const Navbar = () => {
         const token = user?.token
         if (token) {
             const decodedToken = jwtDecode(token)
-            if (decodedToken.exp * 1000 < new Date.getTime()) {
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
                 handleLogout()
             }
         }
 
         dispatch(setCurrentUser( JSON.parse(localStorage.getItem('Profile')) ))
-    }, [dispatch])
+    }, [user?.token, dispatch])
 
     return (
         <nav className='flex grow justify-between items-center gap-[2%] min-h-[55px] w-[100%] my-0 mx-auto fixed bg-[#f8f9f9] px-[10%] border-t-4 border-t-orange-400 shadow-md z-10'>
