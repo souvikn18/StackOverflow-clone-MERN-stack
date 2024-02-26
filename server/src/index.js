@@ -4,7 +4,7 @@ import config from "./config/index.js";
 
 ( async () => {
     try {
-        await mongoose.connect("mongodb+srv://admin:admin@stack-overflow-clone.qqxpboz.mongodb.net/");
+        await mongoose.connect(`${config.MONGODB_URL}`);
         console.log("DB Connected!");
 
         app.on('error', (err) => {
