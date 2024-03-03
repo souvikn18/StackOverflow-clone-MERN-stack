@@ -4,7 +4,7 @@ import CustomError from '../services/customError.js'
 
 export const postAnswer = async ( req, res ) => {
     const { id: _id } = req.params;
-    const { noOfAnswers, answerBody, userAnswered } = req.body;
+    const { noOfAnswers, answerBody, userAnswered, userId } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(_id)) {
         throw new CustomError("Question unavailable", 500)
@@ -17,7 +17,7 @@ export const postAnswer = async ( req, res ) => {
             'answers': [{
                 answerBody,
                 userAnswered,
-                userId: req.userId
+                userId
             }]
         }})
         res.status(200).json({

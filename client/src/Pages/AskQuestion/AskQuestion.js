@@ -18,7 +18,7 @@ const AskQuestion = () => {
         e.preventDefault()
         console.log({ questionTitle, questionBody, questionTags});
         console.log(user?.existingUser?.name);
-        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?.existingUser?.name, userId: user?.existingUser?._id}, navigate))
+        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?.existingUser?.name, userId: user?.existingUser?._id || user.newUser?._id}, navigate))
         if (!questionTitle) {
             alert('Title is empty!')
         }

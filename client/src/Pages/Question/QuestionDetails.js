@@ -1,25 +1,29 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
-import './Question.css'
+import copy from 'copy-to-clipboard'
 
+import './Question.css'
 import upVote from '../../assets/sortup.svg'
 import downVote from '../../assets/sortdown.svg'
 import Avatar from '../../Components/Avatar/Avatar'
 import DisplayAnswer from './DisplayAnswer'
-import { postAnswer } from '../../actions/question.actions'
+import { postAnswer, deleteQuestion } from '../../actions/question.actions'
 
 const QuestionDetails = () => {
 
     const questionList = useSelector( state => state.questionReducer )
+    const user = useSelector(state => state.currentUserReducer)
 
     const{ id } = useParams()
+    const url = 'http://localhost:3000'
 
     const [answer, setAnswer] = useState('')
-    const user = useSelector(state => state.currentUserReducer)
+    
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const location = useLocation()
 
     const handlePostAnswer = (e, answerLength) => {
         e.preventDefault()
@@ -34,13 +38,25 @@ const QuestionDetails = () => {
                     id,
                     noOfAnswers: answerLength + 1,
                     answerBody: answer,
-                    userAnswered: user?.existingUser?.name || user?.newUser?.name
+                    userAnswered: user?.existingUser?.name || user?.newUser?.name,
+                    userId: user.existingUser?._id || user.newUser?._id
                 }))
             }
         }
         setAnswer('')
     }
 
+    const handleShare = () => {
+        copy(url + location.pathname)
+        alert('Copied URL: ' + url + location.pathname)
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteQuestion(
+            id,
+            navigate
+        ))
+    }
 
     return (
         <div className='question-details-page mt-[50px]'>
@@ -72,10 +88,10 @@ const QuestionDetails = () => {
                                             </div>
                                             <div className="question-actions-user">
                                                 <div>
-                                                    <button type='button'>Share</button>
+                                                    <button type='button' onClick={handleShare}>Share</button>
                                                     {
-                                                        user?.result?._id === question?.userId && (
-                                                            <button type='button'>Delete</button>
+                                                        (user.existingUser?._id || user.newUser?._id) === question.userId && (
+                                                            <button type='button' onClick={handleDelete}>Delete</button>
                                                         )
                                                     }
                                                 </div>
@@ -96,7 +112,7 @@ const QuestionDetails = () => {
                                     question.noOfAnswers !== 0 && (
                                         <section>
                                             <h3 className='text-lg font-bold mb-4'>{question.answers.length} Answers</h3>
-                                            <DisplayAnswer key={question._id} question={question}/>
+                                            <DisplayAnswer key={question._id} question={question} handleShare={handleShare}/>
                                         </section>
                                     )
                                 }
@@ -113,7 +129,7 @@ const QuestionDetails = () => {
                                                 <Link to='/Tags' key={tag} className='ans-tags'> {tag} </Link>
                                             ))
                                         } or 
-                                        <Link to='/AskQuestion' style={{textDecoration: "none", color:"#009dff"}}> ask your own question.</Link>
+                                        <Link to='/askquestions' style={{textDecoration: "none", color:"#009dff"}}> ask your own question.</Link>
                                     </p>
                                 </section>
                             </div>

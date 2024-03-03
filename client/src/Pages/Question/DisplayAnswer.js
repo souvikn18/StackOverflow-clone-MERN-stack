@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 import Avatar from '../../Components/Avatar/Avatar'
 
-const DisplayAnswer = ({question}) => {
+const DisplayAnswer = ({question, handleShare}) => {
 
     const User = useSelector((state) => (state.currentUserReducer))
 
@@ -17,9 +17,9 @@ const DisplayAnswer = ({question}) => {
                         <p className='mt-4 mb-2'>{ans.answerBody}</p>
                         <div className="question-actions-user">
                             <div>
-                                <button type="button">Share</button>
+                                <button type="button" onClick={handleShare}>Share</button>
                                 {
-                                    User?.result?._id === ans?.userId && (
+                                    (User.existingUser?.name || User.newUser?.name)  === ans?.userAnswered && (
                                         <button type='button'>Delete</button>
                                     )
                                 }
