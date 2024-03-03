@@ -29,7 +29,7 @@ const AskQuestion = () => {
 
     const handleEnter = (e) => {
         if (e.key === 'Enter') {
-            setBody(body + "\n")
+            setQuestionBody(questionBody + "\n")
         }
     }
 

@@ -27,6 +27,7 @@ const questionSchema = new mongoose.Schema({
     },
     userPosted: {
         type: String,
+        required: "Question must have an author"
     },
     userId: {
         type: String,

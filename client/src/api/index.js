@@ -7,3 +7,8 @@ export const signUp = (authData) => API.post('/api/v1/user/signup', authData)
 export const logIn = (authData) => API.post('/api/v1/user/login', authData)
 export const postQuestion = (questionData) => API.post('/api/v1/question/askquestions', questionData)
 export const getAllQuestions = () => API.get('/api/v1/question/get')
+export const postAnswer = (id, noOfAnswers, userAnswered, answerBody) => API.patch(`/api/v1/answer/post/${id}`, {
+    noOfAnswers,
+    userAnswered,
+    answerBody
+})

@@ -7,8 +7,7 @@ export const AskQuestion = async(req, res) => {
     const postQuestion = new Question({ ...postQuestionData, userId})
 
     try {
-        const newQuestion = await postQuestion.save();
-        console.log(newQuestion);
+        await postQuestion.save();
         res.status(200).json({
         success: true,
         message: "Question posted successfully!",

@@ -8,6 +8,7 @@ export const askQuestion = (questionData, navigate) => async (dispatch) => {
             type: 'POST_QUESTION',
             payload: data
         })
+        dispatch(fetchAllQuestions())
         navigate('/')
     } catch (error) {
         console.log(error);
@@ -22,6 +23,21 @@ export const fetchAllQuestions = () => async (dispatch) => {
             payload: data
         })
     } catch (error) {
-        
+        console.log(error);
     }
+}
+
+export const postAnswer = (answerData) => async(dispatch) => {
+    try {
+        const {id, noOfAnswers, userAnswered, answerBody } = answerData
+        const {data} = await api.postAnswer(id, noOfAnswers, userAnswered, answerBody)
+        dispatch({
+            type: 'POST_ANSWER',
+            payload: data
+        })
+        dispatch(fetchAllQuestions())
+    } catch (error) {
+        console.log(error);
+    }
+    
 }

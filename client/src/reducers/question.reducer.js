@@ -5,6 +5,9 @@ const questionReducer = ( state = {data: null}, action) => {
             
         case 'FETCH_ALL_QUESTION':
             return { ...state, data: action.payload }
+        
+        case 'POST_ANSWER':
+            return { ...state}
     
         default:
             return state;

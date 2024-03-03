@@ -1,171 +1,126 @@
 import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
+import './Question.css'
 
 import upVote from '../../assets/sortup.svg'
 import downVote from '../../assets/sortdown.svg'
 import Avatar from '../../Components/Avatar/Avatar'
-import Button from '../../Components/Button'
+import DisplayAnswer from './DisplayAnswer'
+import { postAnswer } from '../../actions/question.actions'
 
 const QuestionDetails = () => {
 
-    //dummy data for designing
-    
-    var questionsList = [{
-        _id: '1',
-        upVotes: 3,
-        downVotes: 2,
-        noOfAnswers: 2,
-        questionTitle: "What is a function?",
-        questionBody: "It meant to be",
-        questionTags: ["java", "node js", "react js", "mongo db", "express js"],
-        userPosted: "souvik",
-        userId: 1,
-        askedOn: "jan 1",
-        answer: [{
-            answerBody: "Functions are self contained modules of code that accomplish a specific task",
-            userAnswered: 'suvo',
-            answeredOn: "jan 2",
-            userId: 2,
-        },
-        {
-            answerBody: "Functions usually take in data, process it, and return a result",
-            userAnswered: 'arsif',
-            answeredOn: "jan 3",
-            userId: 2,
-        }]
-    },{ 
-        _id: '2',
-        upVotes: 3,
-        downVotes: 2,
-        noOfAnswers: 1,
-        questionTitle: "What is a class?",
-        questionBody: "It meant to be",
-        questionTags: ["javascript", "R", "python"],
-        userPosted: "souvik",
-        askedOn: "jan 1",
-        userId: 1,
-        answer: [{
-            answerBody: "Answer",
-            userAnswered: 'suvo',
-            answeredOn: "jan 2",
-            userId: 2,
-        }]
-    },{ 
-        _id: '3',
-        upVotes: 3,
-        downVotes: 2,
-        noOfAnswers: 1,
-        questionTitle: "What is a call back function?",
-        questionBody: "It meant to be",
-        questionTags: ["javascript", "R", "python"],
-        userPosted: "souvik",
-        askedOn: "jan 1",
-        userId: 1,
-        answer: [{
-            answerBody: "Answer",
-            userAnswered: 'suvo',
-            answeredOn: "jan 2",
-            userId: 2,
-        }]
-    }]
+    const questionList = useSelector( state => state.questionReducer )
 
     const{ id } = useParams()
-    const [votes, setVotes] = useState(0)
+
+    const [answer, setAnswer] = useState('')
+    const user = useSelector(state => state.currentUserReducer)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const handlePostAnswer = (e, answerLength) => {
+        e.preventDefault()
+        if (user === null) {
+            alert('Login or Signup to ask a question')
+            navigate('/auth')
+        }else{
+            if (answer === '') {
+                alert('Enter an answer before submit')
+            }else{
+                dispatch(postAnswer({
+                    id,
+                    noOfAnswers: answerLength + 1,
+                    answerBody: answer,
+                    userAnswered: user?.existingUser?.name || user?.newUser?.name
+                }))
+            }
+        }
+        setAnswer('')
+    }
+
 
     return (
-        <div className='max-w-[calc(100%-330px)]  w-[100%] inline-block mt-[50px]'>
+        <div className='question-details-page mt-[50px]'>
             {
-                questionsList === null ?
-                <div className='flex justify-center mt-2'>
-                    <svg className='animate-spin h-[50px] w-[50px] border-t-2 border-l-2 border-[#009dff] rounded-full' viewBox='0 0 24 24'></svg>
-                </div> : 
-                <div className='border-b border-[#0000003e] max-h-[200px]'>
+                questionList.data === null ?
+                <div className='flex justify-center mt-4'>
+                    <svg className='animate-spin h-[50px] w-[50px] border-t-2 border-l-2 border-[#009dff] rounded-full'     viewBox='0 0 24 24'></svg>
+                </div> :
+                <>
                     {
-                        questionsList.filter(question => (question._id === id)).map(question => (
-                            <>
-                                <div key={question._id}>
-                                    <h1 className='text-2xl font-bold'>{question.questionTitle}</h1>
-                                </div>
-                                <div key={question._id} className='mt-8 mb-4'>
-                                    <div>
-                                        <img src={upVote} width='20' alt='upvote' />
-                                        <p className='px-1 text-2xl'>{votes}</p>
-                                        <img src={downVote} width='20' alt='downvote' />
-                                    </div>
-                                    <div className='relative left-[50px] top-[-85px]'>
-                                        <div>
-                                            <p>{question.questionBody}</p>
-                                            {question.questionTags.map(tag => (
-                                                <span className='mr-2 p-1 bg-[#e1ecf4] text-[#39739d] text-[13px] rounded' key={tag}>{tag}</span>
-                                            ))}
+                        questionList.data?.questionList.filter(question => question._id === id).map(question => (
+                            <div key={question._id} className='mt-[30px]'>
+                                <section className='question-details-container'>
+                                    <h1 className='text-2xl font-bold mb-4 flex wrap'>{question.questionTitle}</h1>
+                                    <div className='question-details-container-2'>
+                                        <div className="question-votes">
+                                            <img src={upVote} alt="" width='18' className='votes-icon'/>
+                                            <p>{question.upVote - question.downVote}</p>
+                                            <img src={downVote} alt="" width='18' className='votes-icon'/>
                                         </div>
-                                        <div className='w-[calc(100%-50px)] flex justify-between'>
-                                            <div className='flex gap-4 my-4'>
-                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Share</button>
-                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Delete</button>
+                                        <div style={{width: "100%"}} className='flex flex-col gap-2'>
+                                            <p className='question-body'>{question.questionBody}</p>
+                                            <div className="question-details-tags">
+                                                {
+                                                    question.questionTags.map((tag) => (
+                                                        <p key={tag}>{tag}</p>
+                                                    ))
+                                                }
                                             </div>
-                                            <div className='text-sm'>
-                                                <p> Asked on {question.askedOn} by</p>
-                                                <Link to={`/user/${question.userId}`} className='flex gap-1'>
-                                                    <Avatar backgroundColor='orange' borderRadius='4px' color='white' width='20px' cursor='pointer'>{question.userPosted.charAt(0).toUpperCase()}</Avatar>
-                                                    <p className='text-[#0086d8]'>{question.userPosted}</p>
-                                                </Link>
+                                            <div className="question-actions-user">
+                                                <div>
+                                                    <button type='button'>Share</button>
+                                                    {
+                                                        user?.result?._id === question?.userId && (
+                                                            <button type='button'>Delete</button>
+                                                        )
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <p>asked {moment(question.askedOn).fromNow()}</p>
+                                                    <Link to={`/Users/${question.userId}`} className='user-link' style={{color:'#0086d8'}}>
+                                                        <Avatar backgroundColor="orange" px='8px' py='5px' borderRadius="4px">{question.userPosted.charAt(0).toUpperCase()}</Avatar>
+                                                        <div>
+                                                            {question.userPosted}
+                                                        </div>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </>
+                                </section>
+                                {
+                                    question.noOfAnswers !== 0 && (
+                                        <section>
+                                            <h3 className='text-lg font-bold mb-4'>{question.answers.length} Answers</h3>
+                                            <DisplayAnswer key={question._id} question={question}/>
+                                        </section>
+                                    )
+                                }
+                                <section className='post-ans-container'>
+                                    <h3 className='text-lg font-bold my-6'>Your Answer</h3>
+                                    <form onSubmit={ (e) => { handlePostAnswer(e, question.noOfAnswers) }}>
+                                        <textarea name="" id="" cols="30" rows="8" value={answer} onChange={e => setAnswer(e.target.value)}></textarea><br />
+                                        <input type="submit" className='post-ans-btn' value='Post Your Answer'/>
+                                    </form>
+                                    <p>
+                                        Browse other Question tagged
+                                        {
+                                            question.questionTags.map((tag) => (
+                                                <Link to='/Tags' key={tag} className='ans-tags'> {tag} </Link>
+                                            ))
+                                        } or 
+                                        <Link to='/AskQuestion' style={{textDecoration: "none", color:"#009dff"}}> ask your own question.</Link>
+                                    </p>
+                                </section>
+                            </div>
                         ))
                     }
-                </div>
+                </>
             }
-
-            {
-                questionsList.filter(question => ( question._id === id )).map(question => (
-                    <section className='border-b border-[#0000003e]'>
-                        <h3 className='text-xl font-bold my-4'>{question.noOfAnswers} answer</h3>
-                        <div>
-                            <div>
-                                {question.answer.map(answer => (
-                                    <>
-                                        <p className='text-sm my-2'>{answer.answerBody}</p>
-                                        <div className='flex justify-between'>
-                                            <div className='flex gap-4 my-4'>
-                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Share</button>
-                                                <button className='text-sm text-[#939292] active:border-b active:border-[#0000003e]' type='button'>Delete</button>
-                                            </div>
-                                            <div className='text-sm'>
-                                                <p>answered {answer.answeredOn} by</p>
-                                                <Link to={`/user/${question.userId}`} className='flex gap-1'>
-                                                        <Avatar backgroundColor='green' borderRadius='4px' color='white' width='20px' cursor='pointer'>{answer.userAnswered.charAt(0).toUpperCase()}</Avatar>
-                                                        <p className='text-[#0086d8]'>{answer.userAnswered}</p>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                ))
-            }
-
-            <section>
-                <h3 className='text-xl font-bold my-4'>Your answer</h3>
-                <form>
-                    <textarea className='border mt-2 mb-4 p-2 w-[100%]' cols='30' rows='7'></textarea>
-                    <Button>Post your answer</Button>
-                </form>
-                <p className='my-8'>Browse other question tagged {questionsList.filter(question => (question._id === id)).map( question => (
-                    <>
-                        {question.questionTags.map(tag => (
-                        <span className='mr-2 p-1 bg-[#e1ecf4] text-[#39739d] text-[13px] rounded'>{tag}</span>
-                        ))}
-                    </>
-                ))} or &nbsp;
-                    <Link className='text-[#009dff]' to='/askquestions'>ask your own question</Link>
-                </p>
-            </section>
         </div>
     )
 }
