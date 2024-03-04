@@ -1,13 +1,24 @@
 import React from 'react'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Avatar from '../../Components/Avatar/Avatar'
+import { deleteAnswer } from '../../actions/question.actions'
 
 const DisplayAnswer = ({question, handleShare}) => {
 
     const User = useSelector((state) => (state.currentUserReducer))
+    const {id} = useParams()
+    const dispatch = useDispatch()
+
+    const handleDelete = (answerId, noOfAnswers) => {
+        dispatch(deleteAnswer(
+            id,
+            answerId,
+            noOfAnswers - 1
+        ))
+    }
 
     return (
         <div>
@@ -19,8 +30,8 @@ const DisplayAnswer = ({question, handleShare}) => {
                             <div>
                                 <button type="button" onClick={handleShare}>Share</button>
                                 {
-                                    (User.existingUser?.name || User.newUser?.name)  === ans?.userAnswered && (
-                                        <button type='button'>Delete</button>
+                                    (User.existingUser?._id || User.newUser?._id)  === ans?.userId && (
+                                        <button type='button' onClick={() => handleDelete(ans._id, question.noOfAnswers)}>Delete</button>
                                     )
                                 }
                             </div>

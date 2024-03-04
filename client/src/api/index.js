@@ -14,3 +14,7 @@ export const postAnswer = (id, noOfAnswers, userAnswered, answerBody, userId) =>
     userId
 })
 export const deleteQuestion = (id) => API.delete(`/api/v1/question/delete/${id}`)
+export const deleteAnswer = (id, answerId, noOfAnswers) => API.patch(`/api/v1/answer/delete/${id}`, {
+    answerId,
+    noOfAnswers
+})

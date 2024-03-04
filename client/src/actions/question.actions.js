@@ -51,3 +51,12 @@ export const deleteQuestion = (id, navigate) => async(dispatch) => {
         console.log(error);
     }
 }
+
+export const deleteAnswer = (id, answerId, noOfAnswers) => async(dispatch) => {
+    try {
+        const {data} = await api.deleteAnswer(id, answerId, noOfAnswers)
+        dispatch(fetchAllQuestions())
+    } catch (error) {
+        console.log(error);
+    }
+}
