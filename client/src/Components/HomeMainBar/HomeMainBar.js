@@ -27,7 +27,7 @@ const HomeMainBar = () => {
                 </div>
             }
             {
-                questionsList?.data?.questionList.map(question => (
+                questionsList?.data?.questionList.reverse().map(question => (
                     <QuestionList key={question._id} question={question}/>
                 ))
             }
