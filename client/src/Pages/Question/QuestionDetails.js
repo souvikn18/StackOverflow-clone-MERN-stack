@@ -9,7 +9,7 @@ import upVote from '../../assets/sortup.svg'
 import downVote from '../../assets/sortdown.svg'
 import Avatar from '../../Components/Avatar/Avatar'
 import DisplayAnswer from './DisplayAnswer'
-import { postAnswer, deleteQuestion } from '../../actions/question.actions'
+import { postAnswer, deleteQuestion, voteQuestion } from '../../actions/question.actions'
 
 const QuestionDetails = () => {
 
@@ -58,6 +58,32 @@ const QuestionDetails = () => {
         ))
     }
 
+    const handleUpVote = () => {
+        if (user === null) {
+            alert("Login or Signup to vote a question")
+            navigate('/auth')
+        } else {
+            dispatch(voteQuestion(
+                id,
+                'upVote',
+                user.existingUser?._id || user.newUser?._id
+            ))
+        }
+    }
+
+    const handleDownVote = () => {
+        if (user === null) {
+            alert("Login or Signup to vote a question")
+            navigate('/auth')
+        } else {
+            dispatch(voteQuestion(
+                id,
+                'downVote',
+                user.existingUser?._id || user.newUser?._id
+            ))
+        }
+    }
+
     return (
         <div className='question-details-page mt-[50px]'>
             {
@@ -73,9 +99,9 @@ const QuestionDetails = () => {
                                     <h1 className='text-2xl font-bold mb-4 flex wrap'>{question.questionTitle}</h1>
                                     <div className='question-details-container-2'>
                                         <div className="question-votes">
-                                            <img src={upVote} alt="" width='18' className='votes-icon'/>
-                                            <p>{question.upVote - question.downVote}</p>
-                                            <img src={downVote} alt="" width='18' className='votes-icon'/>
+                                            <img src={upVote} alt="" width='18' className='votes-icon' onClick={handleUpVote}/>
+                                            <p>{question.upVotes.length - question.downVotes.length}</p>
+                                            <img src={downVote} alt="" width='18' className='votes-icon' onClick={handleDownVote}/>
                                         </div>
                                         <div style={{width: "100%"}} className='flex flex-col gap-2'>
                                             <p className='question-body'>{question.questionBody}</p>

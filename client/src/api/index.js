@@ -18,3 +18,4 @@ export const deleteAnswer = (id, answerId, noOfAnswers) => API.patch(`/api/v1/an
     answerId,
     noOfAnswers
 })
+export const voteQuestion = (id, value, userId) => API.patch(`/api/v1/question/vote/${id}`, { value, userId })

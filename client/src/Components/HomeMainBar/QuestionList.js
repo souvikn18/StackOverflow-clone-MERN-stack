@@ -6,7 +6,7 @@ const QuestionList = ({question}) => {
     return (
         <section className='min-h-[80px] flex items-center w-[100%] gap-6 py-5 pl-4 bg-[#fdf7e2] border-b border-b-[#edeff0]'>
             <div className='text-center'>
-                <p>{question.upVotes - question.downVotes}</p>
+                <p>{question.upVotes.length - question.downVotes.length}</p>
                 <p>Votes</p>
             </div>
             <div className='text-center'>
