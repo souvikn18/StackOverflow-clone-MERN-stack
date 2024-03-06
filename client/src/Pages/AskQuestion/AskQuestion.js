@@ -16,6 +16,10 @@ const AskQuestion = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        if (user === null) {
+            alert('Login or Signup to ask questions')
+            navigate('/auth')
+        }
         console.log({ questionTitle, questionBody, questionTags});
         console.log(user?.existingUser?.name || user.newUser?.name);
         dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?.existingUser?.name || user.newUser?.name, userId: user?.existingUser?._id || user.newUser?._id}, navigate))
