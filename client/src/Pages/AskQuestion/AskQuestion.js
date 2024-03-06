@@ -21,8 +21,8 @@ const AskQuestion = () => {
             navigate('/auth')
         }
         console.log({ questionTitle, questionBody, questionTags});
-        console.log(user?.existingUser?.name || user.newUser?.name);
-        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?.existingUser?.name || user.newUser?.name, userId: user?.existingUser?._id || user.newUser?._id}, navigate))
+        console.log(user?.result?.name);
+        dispatch(askQuestion({ questionTitle, questionBody, questionTags, userPosted: user?.result?.name, userId: user?.result?._id}, navigate))
         if (!questionTitle) {
             alert('Title is empty!')
         }

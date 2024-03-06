@@ -12,7 +12,6 @@ const Navbar = () => {
 
     const dispatch = useDispatch()
     var user = useSelector((state) => (state.currentUserReducer))
-    //console.log(user?.existingUser?.name.charAt(0).toUpperCase());
 
     const navigate = useNavigate()
 
@@ -63,7 +62,7 @@ const Navbar = () => {
                         user !== null ? 
                         <>
                         <Link to='/user'>
-                            <Avatar backgroundColor="#009dff" px="10px" py="7px" borderRadius="50%" color="white" height="40px" width="40px" fontSize="18px">{user?.existingUser?.name.charAt(0).toUpperCase() || user.newUser?.name.charAt(0).toUpperCase()}</Avatar>
+                            <Avatar backgroundColor="#009dff" px="10px" py="7px" borderRadius="50%" color="white" height="40px" width="40px" fontSize="18px">{user?.result?.name.charAt(0).toUpperCase()}</Avatar>
                         </Link>
                         <Link to='/'>
                             <button className='border border-solid border-blue-600 py-[5px] px-[10px] rounded-[5px] bg-[#e7f8fe] hover:bg-[#d3e4eb] transition ease-in-out duration-200' onClick={handleLogout}>Log out</button>

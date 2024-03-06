@@ -28,7 +28,7 @@ const QuestionDetails = () => {
     const handlePostAnswer = (e, answerLength) => {
         e.preventDefault()
         if (user === null) {
-            alert('Login or Signup to ask a question')
+            alert('Login or Signup to post answer')
             navigate('/auth')
         }else{
             if (answer === '') {
@@ -38,8 +38,8 @@ const QuestionDetails = () => {
                     id,
                     noOfAnswers: answerLength + 1,
                     answerBody: answer,
-                    userAnswered: user?.existingUser?.name || user?.newUser?.name,
-                    userId: user.existingUser?._id || user.newUser?._id
+                    userAnswered: user?.result?.name,
+                    userId: user.result?._id
                 }))
             }
         }
@@ -66,7 +66,7 @@ const QuestionDetails = () => {
             dispatch(voteQuestion(
                 id,
                 'upVote',
-                user.existingUser?._id || user.newUser?._id
+                user.result?._id
             ))
         }
     }
@@ -79,7 +79,7 @@ const QuestionDetails = () => {
             dispatch(voteQuestion(
                 id,
                 'downVote',
-                user.existingUser?._id || user.newUser?._id
+                user.result?._id
             ))
         }
     }
@@ -93,8 +93,8 @@ const QuestionDetails = () => {
                 </div> :
                 <>
                     {
-                        questionList.data?.questionList.filter(question => question._id === id).map(question => (
-                            <div key={question._id} className='mt-[30px]'>
+                        questionList.data?.questionList.filter(question => question?._id === id).map(question => (
+                            <div key={question?._id} className='mt-[30px]'>
                                 <section className='question-details-container'>
                                     <h1 className='text-2xl font-bold mb-4 flex wrap'>{question.questionTitle}</h1>
                                     <div className='question-details-container-2'>
@@ -116,7 +116,7 @@ const QuestionDetails = () => {
                                                 <div>
                                                     <button type='button' onClick={handleShare}>Share</button>
                                                     {
-                                                        (user.existingUser?._id || user.newUser?._id) === question.userId && (
+                                                        user?.result?._id === question?.userId && (
                                                             <button type='button' onClick={handleDelete}>Delete</button>
                                                         )
                                                     }

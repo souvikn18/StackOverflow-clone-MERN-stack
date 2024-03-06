@@ -41,7 +41,7 @@ export const signUp = async(req, res) => {
         res.status(200).json({
             success: true,
             token, 
-            newUser
+            result: newUser
         })
     } catch (error) {
         res.status(500).json("Something went worng...")
@@ -74,7 +74,7 @@ export const logIn = async(req, res) => {
             res.status(200).json({
                 success: true,
                 token,
-                existingUser
+                result: existingUser
             })
         }
     } catch (error) {
