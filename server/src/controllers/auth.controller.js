@@ -81,3 +81,26 @@ export const logIn = async(req, res) => {
         res.status(500).json("Something went worng...")
     }
 }
+
+export const getAllUser = async(req, res) => {
+    try {
+        const allUser = await User.find();
+        const allUserDetails = []
+        allUser.forEach(user => {
+            allUserDetails.push({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                about: user.about,
+                tags: user.tags,
+                joinedOn: user.joinedOn
+            })
+        })
+        res.status(200).json(allUserDetails)
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
