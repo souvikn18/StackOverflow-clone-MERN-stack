@@ -6,6 +6,7 @@ import User from './Pages/User/User'
 import Question from './Pages/Question/Question'
 import AskQuestion from './Pages/AskQuestion/AskQuestion'
 import ViewQuestion from './Pages/Question/ViewQuestion'
+import Tags from './Pages/Tags/Tags'
 
 const AllRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const AllRoutes = () => {
             <Route path='/questions' Component={Question}/>
             <Route path='/askquestions' Component={AskQuestion}/>
             <Route path='/questions/:id' Component={ViewQuestion} />
+            <Route path='/tags' Component={Tags} />
         </Routes>
     )
 }
