@@ -50,7 +50,7 @@ const Tags = () => {
     return (
         <div className='min-h-[100vh] max-w-[1250px] w-[100%] flex justify-between my-0 mx-auto '>
             <LeftSideBar/>
-            <div className='mt-[80px] pl-[30px] flex flex-col gap-6'>
+            <div className='mt-[80px] max-w-[1100px] w-[calc(100% - 164px)] pl-[30px] flex flex-col gap-6 box-border'>
                 <h3 className='text-3xl'>Tags</h3>
                 <p>A tag is a keyword or label that categorizes your question with other, similar questions. Using the right tags makes it easier for others to find and answer your question.</p>
                 <div className='grid grid-cols-4 gap-4'>

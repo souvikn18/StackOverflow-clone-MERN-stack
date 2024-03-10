@@ -61,7 +61,7 @@ const Navbar = () => {
                     {
                         user !== null ? 
                         <>
-                        <Link to='/user'>
+                        <Link to={`/users/${user?.result?._id}`}>
                             <Avatar backgroundColor="#009dff" px="10px" py="7px" borderRadius="50%" color="white" height="40px" width="40px" fontSize="18px">{user?.result?.name.charAt(0).toUpperCase()}</Avatar>
                         </Link>
                         <Link to='/'>
