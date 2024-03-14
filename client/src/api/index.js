@@ -28,3 +28,4 @@ export const deleteAnswer = (id, answerId, noOfAnswers) => API.patch(`/api/v1/an
 export const voteQuestion = (id, value, userId) => API.patch(`/api/v1/question/vote/${id}`, { value, userId })
 
 export const fetchAllUser = () => API.get('/api/v1/user/getalluser')
+export const updateProfile = (id, updateData) => API.patch(`/api/v1/user/updateuser/${id}`, updateData)

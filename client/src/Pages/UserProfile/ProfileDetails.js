@@ -17,14 +17,14 @@ const ProfileDetails = () => {
                         <h3 className='font-bold mt-6 py-2'>Tags Watched</h3>
                         {e.tags.length !== 0 ? 
                         <ul>
-                            {e.tags.map(tag => (<li>{tag}</li>))}
+                            {e.tags.map(tag => (<li key={tag}>{tag}</li>))}
                         </ul> : 
                         <p className='text-[#7e7e7e] italic'>No tags found!</p>
                 }
                     </div>
                     <div>
                         <h3 className='mt-6 py-2 font-bold'>About</h3>
-                        {e.about === null ? 
+                        {e.about ? 
                         <p>{e.about}</p>
                         :
                         <p className='text-[#7e7e7e] italic'>No bio found</p>}

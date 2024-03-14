@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
@@ -99,6 +100,33 @@ export const getAllUser = async(req, res) => {
         res.status(200).json(allUserDetails)
     } catch (error) {
         res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    const {id: _id} = req.params
+    const {displayname, email, about, tags} = req.body
+
+    if (!mongoose.Types.ObjectId.isValid(_id)) {
+        throw new CustomError("Invalid id", 400)
+    }
+    try {
+        const userToUpdate = await User.findByIdAndUpdate(
+            _id,
+            { $set: {
+                name: displayname,
+                email: email,
+                about: about,
+                tags: tags
+            }},
+            { new: true}
+        );
+        res.status(200).json(userToUpdate)
+    } catch (error) {
+        res.status(405).json({
             success: false,
             message: error.message
         })
