@@ -17,7 +17,7 @@ const QuestionDetails = () => {
     const user = useSelector(state => state.currentUserReducer)
 
     const{ id } = useParams()
-    const url = 'http://localhost:3000'
+    const url = 'https://stack-overflow-clone-mern-stack.vercel.app'
 
     const [answer, setAnswer] = useState('')
     
